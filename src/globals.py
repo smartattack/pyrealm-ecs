@@ -42,3 +42,8 @@ daylight_message = [
     'The sun is directly overhead.',
     'The sky dims as the sun begins to set.',
 ]
+
+# Positions - these are parsed in the user command handler
+# Move to globals?
+Positions = ('dead', 'sleeping', 'sitting', 'fighting', 'standing')
+

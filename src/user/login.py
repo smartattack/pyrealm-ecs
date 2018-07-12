@@ -9,11 +9,11 @@ from user.helpers import user_online
 from user.account import create_account, validate_password
 from user.db import account_exists, save_account, load_account, record_visit
 from user.user import User
-from database.object import load_object,  save_object
-from database.json import save_to_json
-from actor.player import Player
-from world.room import Room
-from game_object import instances
+#from database.object import load_object,  save_object
+#from database.json import save_to_json
+#from actor.player import Player
+#from world.room import Room
+#from game_object import instances
 from utils import log
 import globals as GLOBALS
 

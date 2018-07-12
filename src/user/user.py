@@ -3,10 +3,10 @@ User Class - represents a connected user
 """
 
 from user.base_user import BaseUser
-from actor.player import Positions
+from globals import Positions
 from utils import log
-import command
-from command.table import find_command
+#import command
+#from command.table import find_command
 
 
 class User(BaseUser):
@@ -68,15 +68,15 @@ class User(BaseUser):
                 self.send('You cannot do that while you are {}\n'.format(self.player.position))
                 return
             # Attempt to dispatch the command, might make this a try/except
-            if hasattr(command, match.func):
-                # Prepend args if populated in cmd_table entry
-                if match.args:
-                    args = [ match.args ] + args
-                #log.debug('Command module has method: %s', match.func)
-                getattr(command, match.func)(self.player, args)
-                log.debug('Calling %s(%s, %s)', match.func, self.player.name, args)
-            else:
-                log.debug('Command module does not have method: %s', match.func)
+            #if hasattr(command, match.func):
+            #    # Prepend args if populated in cmd_table entry
+            #    if match.args:
+            #        args = [ match.args ] + args
+            #    #log.debug('Command module has method: %s', match.func)
+            #    getattr(command, match.func)(self.player, args)
+            #    log.debug('Calling %s(%s, %s)', match.func, self.player.name, args)
+            #else:
+            #    log.debug('Command module does not have method: %s', match.func)
         else:
             self.send('^rUnknown command!^d\n')
 

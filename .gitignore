@@ -1,0 +1,17 @@
+# Tooling
+venv
+.scannerwork
+*.py[co]
+.pytest_cache
+__pycache__
+#.vscode
+.idea
+
+*.log
+.*swp
+*~
+
+# Extraneous local backups
+archive
+*.bak
+data.*

@@ -1,0 +1,10 @@
+# Development requirements
+pylint
+pytest
+jsonpickle
+simplejson
+# Profiling
+pycallgraph
+graphviz
+gprof2dot
+objgraph

@@ -5,13 +5,15 @@
             "name": "Python: Program",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}/src/main.py"
+            "program": "${workspaceFolder}/src/main.py",
+            "cwd": "${workspaceFolder}"
         },
         {
             "name": "Python: Current File",
             "type": "python",
             "request": "launch",
-            "program": "${file}"
+            "program": "${file}",
+            "cwd": "${workspaceFolder}"
         },
         {
             "name": "Python: Attach",
@@ -21,14 +23,16 @@
             "remoteRoot": "${workspaceFolder}/src",
             "port": 3000,
             "secret": "my_secret",
-            "host": "localhost"
+            "host": "localhost",
+            "cwd": "${workspaceFolder}"
         },
         {
             "name": "Python: Terminal (integrated)",
             "type": "python",
             "request": "launch",
             "program": "${file}",
-            "console": "integratedTerminal"
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}"
         },
         {
             "name": "Python: Flask (0.11.x or later)",
@@ -42,7 +46,8 @@
                 "run",
                 "--no-debugger",
                 "--no-reload"
-            ]
+            ],
+            "cwd": "${workspaceFolder}"
         },
 
 }

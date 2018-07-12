@@ -4,6 +4,7 @@ Telnet Server code
 
 from utils import log
 import constants
+from user.login import Login
 import globals as GLOBALS
 
 def connect_hook(client):

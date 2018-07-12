@@ -6,9 +6,10 @@ Logging, text manipulation, colorization.
 
 import logging
 import time
+import constants
 
 
-def init_log(filename='log/pyrealm.log', level=logging.DEBUG):
+def init_log(filename=constants.LOGFILE, level=logging.DEBUG):
     """Called only once in main to give us consistent logging"""
     log = logging.getLogger('self.log')
     log.setLevel(level)

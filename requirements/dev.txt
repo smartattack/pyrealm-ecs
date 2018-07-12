@@ -1,8 +1,8 @@
+# PyRealm requirements
+dill
 # Development requirements
 pylint
 pytest
-jsonpickle
-simplejson
 # Profiling
 pycallgraph
 graphviz

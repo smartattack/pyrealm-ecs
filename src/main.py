@@ -64,9 +64,8 @@ def main():
     while GLOBALS.GAME_RUNNING:
         # Tick / run game here
         loop_start = now()
-        telnet.poll()
-        telnet.kick_idlers()
-        telnet.process_commands()
+        # Process telnet server connections
+        telnet.process()
 #        send_prompts()
 #        update_game_time()
 #        GLOBALS.Scheduler.tick()

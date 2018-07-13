@@ -6,7 +6,7 @@ Global constants
 game_state = None
 PORT = 1234
 WELCOME_BANNER = '\n^WWelcome to ^YP^Ry^BR^Cealm^w!^d\n\n'
-LOGFILE = 'pyrealm.log'
+LOGFILE = 'log/pyrealm.log'
 
 # These are here so they do not get persisted into
 # game object data where they would be harder to change

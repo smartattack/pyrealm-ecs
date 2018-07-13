@@ -7,6 +7,7 @@ import constants
 from user.login import Login
 import globals as GLOBALS
 
+
 def connect_hook(client):
     """Initialization routine run when clients connect"""
     log.info('--> Received connection from %s, sending welcome banner', client.addrport())
@@ -37,6 +38,7 @@ def disconnect_hook(client):
     log.debug(' +-> Removing GLOBALS.clients[%s]', client.addrport())
     GLOBALS.clients.remove(client)
 
+
 def kick_idlers():
     """Scan for and deactivate clients which have surpassed idle timeout"""
     # We maintain separate timeouts for players vs lobby connections
@@ -52,3 +54,16 @@ def kick_idlers():
                 log.info('Marking idle client inactive: %s', client.addrport())
         else:
             log.error('Found client not in LOBBY or PLAYERS lists: %s', client.addrport())
+
+
+def process_commands():
+    """Handle user input"""
+    for user in list(GLOBALS.lobby.values()):
+        # process commands
+        if user.client.active and user.client.cmd_ready:
+            user.driver()
+    for user in GLOBALS.players.values():
+        # process commands
+        if user.client.active and user.client.cmd_ready:
+            user.driver()
+

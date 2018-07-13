@@ -10,6 +10,7 @@ from utils import log
 from miniboa import TelnetServer
 from ecs_world import create_world, save_world, load_world
 import telnet_server
+from user.db import boot_userdb
 import globals as GLOBALS
 import constants
 
@@ -47,8 +48,7 @@ def main():
     #GLOBALS.boot_time = int(time.time())
     #GLOBALS.last_update = GLOBALS.boot_time
 
-    #boot_userdb()
-    #boot_db()
+    boot_userdb()
 
     log.info('Starting server on port %s', constants.PORT)
 
@@ -71,7 +71,7 @@ def main():
         loop_start = time.time()
         server.poll()
         telnet_server.kick_idlers()
-#        process_commands()
+        telnet_server.process_commands()
 #        send_prompts()
 #        update_game_time()
 #        GLOBALS.Scheduler.tick()

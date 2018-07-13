@@ -34,7 +34,7 @@ class MyTelnetServer:
 
     def process(self):
         """Handle connections and input"""
-        self.server._poll()
+        self._server.poll()
         self._kick_idlers()
         self._process_commands()
 

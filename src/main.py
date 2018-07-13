@@ -4,13 +4,12 @@ New architecture test
 
 import sys
 import signal
-import time
 
 from utils import log
-from miniboa import TelnetServer
 from ecs_world import create_world, save_world, load_world
-import telnet_server
+from telnet_server import MyTelnetServer
 from user.db import boot_userdb
+from clock import start_clock, now
 import globals as GLOBALS
 import constants
 
@@ -41,21 +40,17 @@ def main():
     #if __debug__:
     #    sys.settrace(tracer)
 
-    # Start the clock
-    #GLOBALS.EPOCH_S = int(time.strftime('%s', time.strptime(GLOBALS.GAME_EPOCH, '%Y/%m/%d %H:%M:%S')))
-    #log.info('Converted GAME_EPOCH: %s -> %s', GLOBALS.GAME_EPOCH, GLOBALS.EPOCH_S)
-    #log.info('Game time will be scaled by a factor of: %s', GLOBALS.TIME_FACTOR)
-    #GLOBALS.boot_time = int(time.time())
-    #GLOBALS.last_update = GLOBALS.boot_time
-
+    # Load user accounts
     boot_userdb()
+    
+    # Start the clock
+    start_clock(constants.TIME_FACTOR)
 
+    # Start the telnet server
     log.info('Starting server on port %s', constants.PORT)
+    telnet = MyTelnetServer(world, port=constants.PORT, 
+                            banner=constants.WELCOME_BANNER)
 
-    server = TelnetServer(port=constants.PORT, timeout=.05)
-    # set our own hooks for welcome/disconnect messaging
-    server.on_connect = telnet_server.connect_hook
-    server.on_disconnect = telnet_server.disconnect_hook
 
     #log.info('Starting event queue')
     #GLOBALS.Scheduler = EventQueue()
@@ -68,14 +63,14 @@ def main():
     loop_count = 0
     while GLOBALS.GAME_RUNNING:
         # Tick / run game here
-        loop_start = time.time()
-        server.poll()
-        telnet_server.kick_idlers()
-        telnet_server.process_commands()
+        loop_start = now()
+        telnet.poll()
+        telnet.kick_idlers()
+        telnet.process_commands()
 #        send_prompts()
 #        update_game_time()
 #        GLOBALS.Scheduler.tick()
-        loop_end = time.time()
+        loop_end = now()
         loop_count += 1
         if loop_count % 1000 == 0:
             log.debug('Loop time: %7.5f, total loops: %s', (loop_end - loop_start), loop_count)

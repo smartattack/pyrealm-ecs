@@ -17,3 +17,5 @@ MAX_LEVEL = 100
 # id number of starting room for new players
 START_ROOM = 1
 
+# Scale factor for game time
+TIME_FACTOR = 24

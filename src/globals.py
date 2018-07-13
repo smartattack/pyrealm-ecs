@@ -6,19 +6,6 @@ outside of main.py so globals can be included more easily.
 # will be populated in main() with current time.time()
 boot_time = -1
 
-# List of client connections (TelnetClient)
-clients = []
-
-# users in lobby
-lobby = {}
-
-# logged in users
-users = {}
-players = {}
-
-# Timeouts
-PLAYER_TIMEOUT = 1200
-LOBBY_TIMEOUT = 180
 
 # default game state
 GAME_RUNNING = True
@@ -29,10 +16,6 @@ current_snapshot = None
 
 # Dawn of time for the game (YYYY/mm/dd HH:MM:SS)
 GAME_EPOCH = '0776/07/04 12:00:00'
-TIME_FACTOR = 24
-
-# Scale factor for game time
-TIME_FACTOR = 24
 
 # Daylight changes
 daylight_level = 0

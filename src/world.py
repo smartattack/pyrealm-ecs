@@ -55,7 +55,7 @@ class World:
         assert issubclass(instance.__class__, System)
         log.info('Registering system: %s', system.name)
         self._systems.append(instance)
-        self._systems.sort(key=lamba system: system.priority, reverse=True)
+        self._systems = sorted(self._systems, key=lambda a: a.priority, reverse=True)
 
 
     def unregister_system(self, instance):
@@ -69,7 +69,7 @@ class World:
         """Run processing on all systems, reap dead entities"""
         self._reap_dead_entities()
         log.debug('Running Systems:')
-        for system in self.systems:
+        for system in self._systems:
             log.debug(' * %s', system.name)
             system.update(*args, **kwargs)
 

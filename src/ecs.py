@@ -319,6 +319,8 @@ class System(object):
     [<Position entity:player.position>, <Position entity:skeleton.position>, <Velocity entity:player.velocity>, <Velocity entity:skeleton.velocity>]
     '''
     components = []
+    # Used in scheduling, highest first
+    priority = 0
     Catalog = {}
 
     __slots__ = ()

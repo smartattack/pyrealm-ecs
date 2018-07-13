@@ -5,7 +5,7 @@ Wear Component
 from enum import Enum
 from ecs import Component
 
-class Wear(Component)
+class Wear(Component):
     """Wearable component data"""
     def __init__(self, slots=None):
         self._slots = set()

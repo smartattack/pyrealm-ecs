@@ -5,7 +5,7 @@ Login Handler - Implements a FSM to handle logins and chargen
 import time
 import os
 from utils import log
-from ecs_world import EntityManager
+#from world import World
 from user.base_user import BaseUser
 from user.helpers import user_online
 from user.account import create_account, validate_password
@@ -23,10 +23,10 @@ class Login(BaseUser):
     Create new accounts and characters
     """
     #def __init__(self, ecs, client):
-    def __init__(self, entmgr, client):
+    def __init__(self, world, client):
         """Create a login handler"""
         BaseUser.__init__(self, client)
-        self.entmgr = entmgr
+        self.world = world
         self.change_state('ask_username')
         self.driver()
         self.username = 'Guest'
@@ -117,9 +117,9 @@ class Login(BaseUser):
                 #                        self.account['playing'].lower(),
                 #                        self.account['playing'].lower() + '.json')
                 #self.player = load_object(filename)
-                for entity in self.ecs:
-                    if entity == self.account['playing']:
-                        log.info('Found matching player entity_id %s for "%s"', entity, self.name)
+                for entity in self.world.entities:
+                    if entity.name == self.account['playing']:
+                        log.info('Found matching player entity_id %s for "%s"', entity.name, self.name)
                         #FIXME: wth do I do here?
                         #self.player = self.ecs
                         break
@@ -283,24 +283,21 @@ class Login(BaseUser):
         log.debug('User created successfully')
         user.client = self.player.client
         user.username = self.account['username']
-        user.player = self.player
+        #user.player = self.player
         user.change_state('playing')
         # Remove us from lobby, should clean up Login() object
         del GLOBALS.lobby[self.player.client]
         # Insert the user into the players dict
         # This enables the user command interpreter via User.driver()
-        GLOBALS.players[self.player.client] = user
-        if self.player.location == None:
-            self.player.location = GLOBALS.START_ROOM
-        GLOBALS.rooms[self.player.location].add_actor(self.player)
+        #GLOBALS.players[self.player.client] = user
+        #if self.player.location == None:
+        #    self.player.location = GLOBALS.START_ROOM
+        #GLOBALS.rooms[self.player.location].add_actor(self.player)
         user.send('\n')
 
     def make_player(self):
         """Create a player in the ECS, assign initial values"""
-        entity = EntityManager.create('player')
-        info = component_for_entity(entity, components.InfoComponent)
-        info.name = self.username
-        info.short_desc = self.username
+        entity = world.create_entity(self.username)
         #self.player.name = self.username
         #self.player.gender = self.gender
         #self.player.race = self.race

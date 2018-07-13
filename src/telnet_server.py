@@ -14,13 +14,13 @@ LOBBY_TIMEOUT = 180
 
 
 class MyTelnetServer:
-    def __init__(self, entmgr, port, banner):
+    def __init__(self, world, port, banner):
         """Initialize TelnetServer
-        :param object emtmgr: EntityManager
+        :param object world: ECS World manager object
         :param int port: TCP port to listen on
         :param str banner: Welcome banner to send to new connections
         """
-        self.entity_manager = entmgr
+        self.world = world
         self._banner = banner
         self._port = port
         self.clients = []
@@ -57,7 +57,7 @@ class MyTelnetServer:
         client.send_cc(constants.WELCOME_BANNER)
         self.clients.append(client)
         # Initial "user" is a login handler
-        anonymous_user = Login(self.entity_manager, client)
+        anonymous_user = Login(self.world, client)
         # Adding user to lobby activates it's driver() in main loop
         self.lobby[client] = anonymous_user
 

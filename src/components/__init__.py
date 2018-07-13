@@ -8,7 +8,7 @@ ECS Components
 # right namespacing
 
 from components.metadata import Metadata
-from components.attribute import Attribute
+from components.attributes import Attributes
 from components.health import Health
 from components.info import Info
 from components.location import Location

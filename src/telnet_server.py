@@ -27,7 +27,7 @@ class MyTelnetServer:
         self._server.on_disconnect = self._disconnect_hook
 
 
-    def process_input(self):
+    def process(self):
         '''Handle connections and input'''
         self._poll()
         self._kick_idlers()

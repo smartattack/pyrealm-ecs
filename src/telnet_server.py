@@ -20,7 +20,7 @@ class MyTelnetServer:
         :param int port: TCP port to listen on
         :param str banner: Welcome banner to send to new connections
         """
-        self._ecs = ecs
+        self.ecs = ecs
         self._banner = banner
         self._port = port
         self.clients = []
@@ -57,7 +57,7 @@ class MyTelnetServer:
         client.send_cc(constants.WELCOME_BANNER)
         self.clients.append(client)
         # Initial "user" is a login handler
-        anonymous_user = Login(client)
+        anonymous_user = Login(self.ecs, client)
         # Adding user to lobby activates it's driver() in main loop
         self.lobby[client] = anonymous_user
 

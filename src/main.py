@@ -26,7 +26,7 @@ def signal_handler(signal, frame):
 def main():
 
     # Get a global world context
-    world, em = create_world()
+    world, entmgr = create_world()
 
     # test serialization
     '''
@@ -48,7 +48,7 @@ def main():
 
     # Start the telnet server
     log.info('Starting server on port %s', constants.PORT)
-    telnet = MyTelnetServer(world, port=constants.PORT, 
+    telnet = MyTelnetServer(entmgr, port=constants.PORT, 
                             banner=constants.WELCOME_BANNER)
 
 

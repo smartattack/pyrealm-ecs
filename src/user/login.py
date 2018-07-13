@@ -4,12 +4,15 @@ Login Handler - Implements a FSM to handle logins and chargen
 
 import time
 import os
+from utils import log
+from ecs_world import EntityManager
 from user.base_user import BaseUser
 from user.helpers import user_online
 from user.account import create_account, validate_password
 from user.db import account_exists, save_account, load_account, record_visit
 from user.user import User
-from utils import log
+import components
+
 import globals as GLOBALS
 
 
@@ -19,10 +22,11 @@ class Login(BaseUser):
     Login existing players
     Create new accounts and characters
     """
-    def __init__(self, ecs, client):
+    #def __init__(self, ecs, client):
+    def __init__(self, entmgr, client):
         """Create a login handler"""
-
         BaseUser.__init__(self, client)
+        self.entmgr = entmgr
         self.change_state('ask_username')
         self.driver()
         self.username = 'Guest'
@@ -113,15 +117,15 @@ class Login(BaseUser):
                 #                        self.account['playing'].lower(),
                 #                        self.account['playing'].lower() + '.json')
                 #self.player = load_object(filename)
-                for gid, player in GLOBALS.all_players.items():
-                    log.debug('GID, PLAYER == %s, %s', gid, player)
-                    if player.name == self.account['playing']:
-                        log.info('Found matching player GID %s for "%s"', gid, player.name)
-                        self.player = player
+                for entity in self.ecs:
+                    if entity == self.account['playing']:
+                        log.info('Found matching player entity_id %s for "%s"', entity, self.name)
+                        #FIXME: wth do I do here?
+                        #self.player = self.ecs
                         break
                 else:
-                    log.error('Could not locate player in global players list')
-                self.player.client = self.client
+                    log.error('Could not locate player in entity list')
+                #self.player.client = self.client
                 self.change_state('player_handoff')
                 self.send('Welcome back, {}!\n\n'.format(self.username))
             except Exception as err:
@@ -255,13 +259,8 @@ class Login(BaseUser):
         elif confirm in ('y', 'yes'):
             self.send('\n\nCreating your player...')
             log.debug('Creating Player() object')
-            self.player = Player()
-            self.player.client = self.client
-            self.player.name = self.username
-            self.player.gender = self.gender
-            self.player.race = self.race
-            log.info('Saving player %s', self.player.name)
-            save_object(self.player)
+            # Create a player entity
+            self.make_player()
             self.account['playing'] = self.username
             save_account(self.account)
             self.send('Finished!\n')
@@ -295,3 +294,14 @@ class Login(BaseUser):
             self.player.location = GLOBALS.START_ROOM
         GLOBALS.rooms[self.player.location].add_actor(self.player)
         user.send('\n')
+
+    def make_player(self):
+        """Create a player in the ECS, assign initial values"""
+        entity = EntityManager.create('player')
+        info = component_for_entity(entity, components.InfoComponent)
+        info.name = self.username
+        info.short_desc = self.username
+        #self.player.name = self.username
+        #self.player.gender = self.gender
+        #self.player.race = self.race
+        return entity

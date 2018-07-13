@@ -1,4 +1,12 @@
-class MetadataComponent:
+"""
+Metadata Component
+Defines extraneous component information
+Entity creation date, type
+"""
+
+from ecs import Component
+
+class Metadata(Component):
     """Metadata about Entity"""
     def __init__(self, entity_type=None):
         self._type = entity_type

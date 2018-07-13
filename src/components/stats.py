@@ -1,6 +1,11 @@
+"""
+Player Stats component
+"""
+
+from ecs import Component
 import constants
 
-class StatsComponent:
+class Stats(Component):
     """Player stats"""
     def __init__(self, level=1, money=0, xp=0, armor=0):
         self._level = level

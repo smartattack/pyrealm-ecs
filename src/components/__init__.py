@@ -7,10 +7,10 @@ ECS Components
 # the files in this module dir and imported them with the
 # right namespacing
 
-from components.metadata import MetadataComponent
-from components.attribute import AttributeComponent
-from components.health import HealthComponent
-from components.info import InfoComponent
-from components.location import LocationComponent
-from components.wear import WearComponent
-from components.stats import StatsComponent
+from components.metadata import Metadata
+from components.attribute import Attribute
+from components.health import Health
+from components.info import Info
+from components.location import Location
+from components.wear import Wear
+from components.stats import Stats

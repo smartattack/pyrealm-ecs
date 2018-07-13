@@ -6,7 +6,7 @@ import sys
 import signal
 
 from utils import log
-from ecs_world import create_world, save_world, load_world
+from world import World
 from telnet_server import MyTelnetServer
 from user.db import boot_userdb
 from clock import start_clock, now
@@ -26,7 +26,7 @@ def signal_handler(signal, frame):
 def main():
 
     # Get a global world context
-    world, entmgr = create_world()
+    world = World()
 
     # test serialization
     '''
@@ -69,6 +69,7 @@ def main():
 #        send_prompts()
 #        update_game_time()
 #        GLOBALS.Scheduler.tick()
+        world.update()
         loop_end = now()
         loop_count += 1
         if loop_count % 1000 == 0:

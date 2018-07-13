@@ -1,6 +1,6 @@
-'''
+"""
 Telnet Server code
-'''
+"""
 
 from utils import log
 from miniboa import TelnetServer
@@ -15,7 +15,12 @@ LOBBY_TIMEOUT = 180
 
 class MyTelnetServer:
     def __init__(self, ecs, port, banner):
-        '''Initialize TelnetServer'''
+        """Initialize TelnetServer
+        :param object ecs: ECS handle (currently and esper World())
+        :param int port: TCP port to listen on
+        :param str banner: Welcome banner to send to new connections
+        """
+        self._ecs = ecs
         self._banner = banner
         self._port = port
         self.clients = []
@@ -28,19 +33,21 @@ class MyTelnetServer:
 
 
     def process(self):
-        '''Handle connections and input'''
-        self._poll()
+        """Handle connections and input"""
+        self.server._poll()
         self._kick_idlers()
         self._process_commands()
 
 
     def process_output(self):
-        '''Handle output to telnet clients'''
+        """Handle output to telnet clients"""
         pass
 
 
     def _connect_hook(self, client):
-        """Initialization routine run when clients connect"""
+        """Initialization routine run when clients connect
+        :param object client: Miniboa.TelnetClient object.
+        """
         log.info('--> Received connection from %s, sending welcome banner', client.addrport())
         # Get terminal environment
         client.request_naws()
@@ -56,7 +63,9 @@ class MyTelnetServer:
 
 
     def _disconnect_hook(self, client):
-        """Overrides miniboa hook, gets called on client disconnection"""
+        """Overrides miniboa hook, gets called on client disconnection
+        :param object client: Miniboa.TelnetClient object
+        """
         log.info("DISCONNECT_HOOK: Lost connection to %s", client.addrport())
         if client in self.lobby:
             log.info(' +-> Removing %s from lobby', client.addrport())
@@ -86,11 +95,6 @@ class MyTelnetServer:
                     log.info('Marking idle client inactive: %s', client.addrport())
             else:
                 log.error('Found client not in LOBBY or PLAYERS lists: %s', client.addrport())
-
-
-    def _poll(self):
-        '''Wraps TelnetServer.poll()'''
-        self._server.poll()
 
 
     def _process_commands(self):

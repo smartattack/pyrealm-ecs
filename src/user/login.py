@@ -9,11 +9,6 @@ from user.helpers import user_online
 from user.account import create_account, validate_password
 from user.db import account_exists, save_account, load_account, record_visit
 from user.user import User
-#from database.object import load_object,  save_object
-#from database.json import save_to_json
-#from actor.player import Player
-#from world.room import Room
-#from game_object import instances
 from utils import log
 import globals as GLOBALS
 
@@ -24,7 +19,9 @@ class Login(BaseUser):
     Login existing players
     Create new accounts and characters
     """
-    def __init__(self, client):
+    def __init__(self, ecs, client):
+        """Create a login handler"""
+
         BaseUser.__init__(self, client)
         self.change_state('ask_username')
         self.driver()

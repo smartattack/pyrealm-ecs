@@ -12,6 +12,8 @@ from user.db import boot_userdb
 from clock import start_clock, now
 import globals as GLOBALS
 import constants
+import components
+from systems.dummy import DummySystem
 
 # Debugging
 from debug import update_snapshot, log_objgraph
@@ -27,13 +29,22 @@ def main():
 
     # Get a global world context
     world = World()
-
+    world.register_system(DummySystem())
     # test serialization
     '''
     save_world(world)
     world = None
     world = load_world()
     '''
+
+    for name in [ 'Bob', 'Martin', 'Xavier', 'Jane', 'Jill', 'Keymaster']:
+        entity = world.create_entity(name=name)
+        entity.info = components.Info(entity, description="Foo")
+        from random import randint
+        entity.health = components.Health(entity, current=randint(1,100))
+
+    bob = world.entity_by_name('Bob')
+    print("DEBUG: {}".format(bob.uid))
 
     signal.signal(signal.SIGINT, signal_handler)
 
@@ -72,7 +83,8 @@ def main():
         world.update()
         loop_end = now()
         loop_count += 1
-        if loop_count % 1000 == 0:
+        if loop_count % 10 == 0:
+            world.delete_entity(bob)
             log.debug('Loop time: %7.5f, total loops: %s', (loop_end - loop_start), loop_count)
 
     log.info('Server shutdown received')

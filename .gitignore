@@ -12,6 +12,7 @@ __pycache__
 *~
 
 # Ignore db files
+pyrealm.db
 *.db
 
 # Extraneous local backups
